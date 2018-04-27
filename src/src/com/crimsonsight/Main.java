@@ -21,6 +21,9 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.videoio.*;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.opencv.imgproc.Imgproc;
 
@@ -30,7 +33,7 @@ import src.com.crimsonsight.Utils;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-
+		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		Mat original = new Mat();
 		MatWindow window = new MatWindow("HEllo");
@@ -39,9 +42,14 @@ public class Main {
 		VideoCapture camera = new VideoCapture(0);
 
 		JFrame jFrame = new JFrame("Option");
-		jFrame.setSize(400, 400);
+		jFrame.setSize(700, 700);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.setLayout(new FlowLayout());
+		 NetworkTableInstance inst = NetworkTableInstance.getDefault();
+		  inst.getDefault().getTable("String");
+		  inst.startClient("10.0.0.182");
+		  NetworkTableEntry xEntry = inst.getEntry("IT");
+		 
 		
 		JPanel panel = new JPanel();
 
@@ -69,7 +77,7 @@ public class Main {
 		JSlider valTolSlider = new JSlider(0, 255, 255);
 			panel.add(valTolSlider);
 			JLabel valTolLabel = new JLabel(String.valueOf("Minimum Value: "+valTolSlider.getValue()));
-				valTolLabel.setFont(new Font("Noto Sans",0 , 15));
+				valTolLabel.setFont(new Font("Noto Sans",0 , 30));
 				panel.add(valTolLabel);
 			
 		JButton resetButton = new JButton("Reset Values");
@@ -90,7 +98,9 @@ public class Main {
 		GUI gui = new GUI();
 		
 		while (true) {
-
+			double dataSend = 0.1;
+			 xEntry.setDouble(dataSend);
+			 dataSend = 5.0;
 			if (!camera.read(original))
 				continue;
 			
@@ -174,9 +184,9 @@ public class Main {
 //				biggest = Imgproc.boundingRect(particleWidth.get(index));	
 			
 			if (biggest != null) {
-				//Utils.pixelRatio(biggest);
 				
-				System.out.println(Utils.calculateAngleOfBoundingBox(original, biggest));
+				//Utils.pixelRatio(biggest);
+				//System.out.println(Utils.calculateAngleOfBoundingBox(original, biggest));
 				Imgproc.line(original,new Point(original.width()/2,0), new Point(original.width()/2,original.height()) , new Scalar(0,500,500));
 				Point center = Utils.calculateMidpoint(biggest);//sets center point see Utils for more info
 				Double height = Utils.calculateHeight(biggest);//sets height see Utils for more info

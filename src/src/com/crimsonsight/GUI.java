@@ -13,7 +13,7 @@ public class GUI extends JFrame {
 	public GUI(){}
 	public static void frame(){
 		JFrame jFrame = new JFrame("Options");
-		jFrame.setSize(400, 400);
+		jFrame.setSize(700, 700);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.setLayout(new FlowLayout());
 
@@ -28,7 +28,7 @@ public class GUI extends JFrame {
 //		JSlider valSlider = new JSlider(10, 255, 255); //247
 //		panel.add(valSlider);
 
-		JSlider tolSlider = new JSlider(0, 255, 85); //136
+		JSlider tolSlider = new JSlider(0, 300, 200); //136
 		panel.add(tolSlider);
 
 		jFrame.setContentPane(panel);//dd
